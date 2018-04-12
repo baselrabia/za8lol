@@ -27,25 +27,32 @@
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-9 col-sm-pull-4 col-md-pull-3">
                     <div class="sub sub-f sub-xs-t job-description">
+                        @if(!$job->availability)
                         <div class="alert alert-info">
                             <b>This Job is no longer available.</b>
                         </div>
+                        @endif
 
                         <h3 class="job-name">
-                            <span>Recruitment Coordinator</span>
-                            <span class="pull-right date" >Posted on July 31, 2017</span>
+                            <span>{{ $job->name }}</span>
+                            <span class="pull-right date" >Posted on {{ $job->created_at }}</span>
                         </h3>
 
                         <h6>
-                            <a href="#">Talent Asset Software and Consulting.</a>
+                            <a href="#">{{ $job->title }}</a>
                         </h6>
 
-                        <button class="btn btn-primary">Login To Apply</button>
-                        <button class="btn btn-primary">Signup To Apply</button>
-                        <button class="btn btn-success">Apply Now</button>
-                        <button class="btn btn-success disabled">You Applied Successfully!</button>
-                        <button class="btn btn-warning pull-right">Bookmark</button>
-                        <button class="btn btn-primary pull-right">UnBookmark</button>
+                        @if($job->availability)
+                            @if(Auth::guest())
+                            <button class="btn btn-primary">Login To Apply</button>
+                            <button class="btn btn-primary">Signup To Apply</button>
+                            @else
+                            <button class="btn btn-success">Apply Now</button>
+                            <button class="btn btn-success disabled">You Applied Successfully!</button>
+                            <button class="btn btn-warning pull-right">Bookmark</button>
+                            <button class="btn btn-primary pull-right">UnBookmark</button>
+                            @endif
+                        @endif
 
                         <hr>
                         <div class="details row">
@@ -56,7 +63,7 @@
                                 </p>
                                 <p>
                                     <span class="fa fa-map-marker"></span>
-                                    Abu Dhabi - United Arab Emirates
+                                    {{ $job->location }}
                                 </p>
                                 <p>
                                     <span class="fa fa-graduation-cap"></span>
@@ -64,24 +71,14 @@
                                 </p>
                             </div>
                             <div class="col-xs-6">
-                                <p><span class="fa fa-money"></span>3000$</p>
+                                <p><span class="fa fa-money"></span>{{ $job->salary }}$</p>
                                 <p><span class="fa fa-user-o"></span>Male</p>
                             </div>
                         </div>
                         <hr>
                         <h5 class="title">Job Desciption :</h5>
                         <p class="description">
-                            We are looking for Recruitment Coordinator for one of our Leading Facility Management Company.
-                            <br>
-                            <br>
-                            • Should have minimum of 2 years experience in Recruitment<br>
-                            • Sourcing<br>
-                            • Screening<br>
-                            • CV validation<br>
-                            • Interacting with various business heads. <br>
-                            • Coordinating for interviews<br>
-                            • Should be able to help team in OLR<br>
-                            • Looking for only Arabic Nationality.<br>
+                            {!! $job->description !!}
                         </p>
                         <hr>
                         <h5 class="title">keywords :</h5>

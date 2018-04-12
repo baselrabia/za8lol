@@ -19,92 +19,84 @@ Route::get('/home', function () {
     return view('user.welcome');
 });
 
-Route::get('/login', function(){
-	return view('user.login');
-});
+Route::get('/login', 'LoginController@index')->middleware('guest');
 
-Route::post('/login_process', function(){
+Route::post('/login_process', 'LoginController@process')->middleware('guest');
 
-	$v = Validator::make(request()->all(), [
-		'email' => 'required|string|email|min:10|max:100|exists:users,email',
-		'password' => 'required|string|min:4|max:50',
+
+Route::get('/register', 'RegisterController@index')->middleware('guest');
+
+Route::post('/register_process','RegisterController@process')->middleware('guest');
+
+Route::get('/logout', function(){
+	Auth::logout();
+	return redirect('/home');
+})->middleware('auth');
+
+Route::get('/search', function(){
+	$page   = request()->get('page', 1);
+	$amount = request()->get('amount', 10);
+	$q      = request()->q;
+
+	$offset = ($page - 1) * $amount;
+
+	$x = App\Job::where('name', 'like', "%{$q}%");
+	$total = $x->count();
+	$data  = $x->limit($amount)->offset($offset)->get();
+
+	return view('user.search', [
+		'jobs'   => $data,
+		'pages'  => ceil($total / $amount),
+		'page'   => $page,
+		'amount' => $amount,
+		'q' => $q,
 	]);
+});
 
-	if ($v->fails()) {
-		session()->flash('errors', $v->messages()->toArray());
-		return redirect('/login');
+Route::get('/job', function(){
+	$id = request()->job_id;
+	$a  = App\Job::find($id);
+
+	if ($a) {
+		return view('user.job', ['job' => $a]);
 	}else{
-		$a = App\User::where('email', request()->email)->first();
-		if ($a->password == request()->password) {
-			Auth::login($a);
-			return redirect('/home');
-		}
-		session()->flash('error', 'your password is wrong!');
-		return back();
+		return redirect('/search');
 	}
-
 });
+Route::get('/create_job', function(){
+	return view('user.create_job');
+})->middleware('auth');
 
 
-Route::get('/register', function(){
-	return view('user.register');
-});
+Route::post('/create_job_process', function(){
 
-Route::post('/register_process', function(){
 	$v = Validator::make(request()->all(), [
-	'first_name' => 'required|string|min:3|max:50',
-	'last_name'  => 'required|string|min:3|max:50',
-	'email'      => 'required|string|min:10|max:100|email|unique:users,email',
-	'password'  => 'required|string|min:3|max:50',
-	'phone'     => 'required|string|min:10|max:30',
-	'location'  => 'required|string|min:2|max:30',
-	'gender'    => 'required|string|in:male,female',
+		'name'  => 'required|string|min:3|max:200',
+		'title' => 'required|string|min:3|max:200',
+		'description' => 'required|string|min:3|max:2000',
+		'location' => 'required|string|min:3|max:50',
+		'company_name' => 'required|string|min:3|max:50',
+		'salary' => 'required',
 	]);
 
 	if ($v->fails()) {
 		session()->flash('errors', $v->errors()->toArray());
 		return back();
-		// return redirect('/register');
+	}else{
+		$a = new App\Job;
+		$a->name = request()->name;
+		$a->title = request()->title;
+		$a->description = request()->description;
+		$a->location = request()->location;
+		$a->company_name = request()->company_name;
+		$a->salary = request()->salary;
+		$a->user_id = Auth::id();
+		$a->save();
+
+		session()->flash('success', 'job created successfully!');
+		return back();
 	}
-	
-	$a = new App\User;
-	$a->first_name = request()->first_name;
-	$a->last_name  = request()->last_name;
-	$a->email      = request()->email;
-	$a->password   = request()->password;
-	$a->gender     = request()->gender;
-	$a->location   = request()->location;
-	$a->phone      = request()->phone;
-	$a->save();
-
-	Auth::login($a);
-
-	return redirect('/home');
-});
-
-Route::get('/logout', function(){
-	Auth::logout();
-	return redirect('/home');
-});
-
-Route::get('/search', function(){
-	$page   = request()->get('page', 1);
-	$amount = request()->get('amount', 10);
-
-	$offset = ($page - 1) * $amount;
-
-	return view('user.search', [
-		'jobs' => App\Job::limit($amount)->offset($offset)->get()
-	]);
-});
-
-Route::get('/job', function(){
-	return view('user.job');
-});
-Route::get('/create_job', function(){
-	return view('user.create_job');
-});
-
+})->middleware('auth');
 
 Route::get('/test', function(){
 

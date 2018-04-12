@@ -16,7 +16,9 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="home">Home</a></li>
                 <li><a href="search">Search</a></li>
+                @if(Auth::check())
                 <li><a href="create_job">Create Job</a></li>
+                @endif
                 <li>
                     <a href="#" data-toggle="popover" title="Find a Job"
                     data-content='

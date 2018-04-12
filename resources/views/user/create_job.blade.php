@@ -13,9 +13,9 @@
                             <div class="col-md-6 col-md-offset-3">
                             
                                 <h3 style="margin-bottom: 25px; text-align: center;">Create new Job</h3>
-
-                                <form method="POST">
-                                    
+@include('user.includes.alerts')
+                                <form method="POST" action="create_job_process">
+                                {{ csrf_field() }}
                                 
                                 <div class="form-group">
                                     <label for="name">Job Name</label>
