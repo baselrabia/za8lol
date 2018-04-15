@@ -63,7 +63,7 @@
                                     <div class="content">
                                         <button class="btn btn-success apply">Apply</button>
                                         <div class="details">
-                                            <a href="#"><b>{{ $job->name }}</b></a>
+                                            <a href="job?job_id={{$job->id}}"><b>{{ $job->name }}</b></a>
                                             <span class="work-type label label-success">Full Time</span>
                                             <span class="date" >Posted on July 31, 2017</span>
                                             <p class="title">{{ $job->title }}</p>

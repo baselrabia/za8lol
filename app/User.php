@@ -28,4 +28,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function jobs(){
+        return $this->hasMany('App\Job');
+    }
+    public function bookmarks(){
+        return $this->hasMany('App\Bookmark');
+    }
+    /*
+    public function jobs(){
+        return Job::where('user_id', $this->id)->get();
+    }
+    */
 }
