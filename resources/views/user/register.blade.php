@@ -22,7 +22,7 @@
                 <div class="col-xs-12">
                     <div class="target-holder">
                         <h4 class="text-center"><b>Create New User</b></h4>
-@include('user.includes.alerts')
+                        @include('user.includes.alerts')
                         <form class="mt-20" method="POST" action="register_process">
                             {{ csrf_field() }}
                             <div class="form-group">
@@ -54,18 +54,9 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="role">Role</label>
-                                <select class="form-control" name="role" id="role">
-                                    <option disabled selected>Please Select User Role</option>
-                                    <option value="user">User</option>
-                                    <option value="employer">Employer</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <input type="radio" value="male" id="male" name="gender">
                                 <label for="male">Male</label>
-                                <input type="radio" id="female" name="gender" value="female" style="margin-left: 30px">
+                                <input type="radio" id="female" name="gender" value="female" checked style="margin-left: 30px">
                                 <label for="female">Female</label>
                             </div>
 
@@ -73,8 +64,6 @@
                                 <button class="btn btn-primary pull-right">Create</button>
                             </div>
                         </form>
-
-
                     </div>
                 </div>
             </div>

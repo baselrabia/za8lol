@@ -18,12 +18,17 @@ class CreateJobsTable extends Migration
             $table->string('name', 200);
             $table->string('title', 200);
             $table->string('location', 60)->nullable();
-            $table->string('company_name', 255);
             $table->text('description');
+            $table->string('company_name', 255);
+
+            $table->text('company_brief')->nullable();
+            $table->text('requirements')->nullable();
+            $table->text('logo')->nullable();
+
             $table->integer('experience')->unsigned()->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('salary')->unsigned();
+            $table->integer('salary')->unsigned()->nullable();
             $table->boolean('availability')->default(1);
             $table->boolean('approved')->default(0);
             $table->timestamps();

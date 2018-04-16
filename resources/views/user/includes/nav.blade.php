@@ -69,7 +69,7 @@
                 data-content='<ul>
                     <li>
                         <a href="#">
-                            <img src="images/default-profile.jpg" alt="profile" class="img-circle" width="30px">
+                            <img src="{{ Auth::user()->avatar }}" alt="profile" class="img-circle" width="30px">
                             <p>yara tarek</p>
                             <p class="msg">Hello there, did you receive my specifications .. </p>
                         </a>
@@ -86,7 +86,7 @@
                     <li><a href="#"><span class="fa fa-gear"></span> Settings</a></li>
                     <li><a href="logout"><span class="fa fa-power-off"></span> Logout</a></li>
                     </ul>'>
-                    <img src="images/default-profile.jpg" alt="profile" class="img-circle" width="30px">
+                    <img src="{{ Auth::user()->avatar }}" alt="profile" class="img-circle" width="30px">
                     </a>
                 </li>
                 @endif

@@ -25,6 +25,9 @@ class CreateUsersTable extends Migration
             $table->string('location', 60);
             $table->integer('salary')->unsigned()->nullable();
             $table->text('biography')->nullable();
+
+            $table->string('avatar')->default('/images/default-profile.jpg');
+
             $table->string('verify_link', 100)->nullable();
             $table->rememberToken();
             $table->timestamps();

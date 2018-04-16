@@ -34,11 +34,16 @@ Route::get('/logout', function(){
 })->middleware('auth');
 
 Route::get('/search', 'SearchController@index');
+Route::get('/search-data', 'SearchController@data');
+ 	
+Route::get('/search-php', 'SearchController@indexPhp');
 
 Route::get('/job', 'JobController@index');
 
 Route::get('/create_job', function(){
-	return view('user.create_job');
+	return view('user.create_job', [
+		'skills' => App\Skill::all()
+	]);
 })->middleware('auth');
 
 
@@ -46,14 +51,11 @@ Route::post('/create_job_process','JobController@process')->middleware('auth');
 
 Route::get('/test', function(){
 
-	$a = App\Job::with('user','bookmarks')->find(1);
+	$a = App\Job::with('bookmarks','user','skills')->find(1);
+	$b = App\User::with('jobs','bookmarks')->find(1);
+	$c = App\Boomkmark::with('job','user')->find(1);
 
 	return $a;
-
-	$x = App\User::find(1);
-	//$x = App\User::with('jobs')->find(1);
-
-	return $x->jobs;
 });
 
 //find(1)

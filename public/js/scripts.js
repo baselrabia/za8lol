@@ -65,3 +65,45 @@ $(document).ready(function () {
     }
     $( '#experience' ).html(x);
 });
+
+
+var app = angular.module('za8lol', ['ui.bootstrap','ngSanitize'], function($interpolateProvider){
+	$interpolateProvider.startSymbol('[[')
+	$interpolateProvider.endSymbol(']]')
+})
+
+var _timeout = null
+
+app.controller('searchController', function($scope, $http){
+	$scope.pag = {
+		page: 1,
+		amount: 10,
+		total: 0,
+		q: ''
+	}
+
+	$scope.jobs = []
+	$scope.loading = false
+
+	$scope.search = function(){
+		$scope.loading = true
+		$http.get('search-data', {params: $scope.pag}).then(function(res){
+			$scope.loading = false
+			$scope.pag  = res.data.pag
+			$scope.jobs = res.data.jobs
+		})
+	}
+
+	$scope.search()
+
+	$scope.changedSearch = function(){
+		clearTimeout(_timeout)
+		_timeout = setTimeout(function(){
+			$scope.search()
+		}, 600)
+	}
+	$scope.searchOnSkill = function(skill){
+		$scope.pag.q = skill
+		$scope.search()
+	}
+})

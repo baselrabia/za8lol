@@ -81,6 +81,23 @@
                             {!! $job->description !!}
                         </p>
                         <hr>
+                        <h5 class="title">Job Requirments :</h5>
+                        <p class="description">
+                            {!! $job->requirements !!}
+                        </p>
+                        <hr>
+                        <div class="job-company-logo">
+                            <img src="{{$job->logo}}" class="logo" alt="{{ $job->company_name }}">
+                            <h5 class="title">Company Brief :</h5>
+                            <p>
+                                <span class="lead">{{ $job->company_name }}</span>
+                                <span class="small">{{ $job->location }}</span>
+                            </p>
+                            <p class="description">
+                                {!! $job->company_brief !!}
+                            </p>
+                        </div>
+                        <hr>
                         <h5 class="title">keywords :</h5>
                         <div class="keywords">
                             <a href="#">Sourcing</a>

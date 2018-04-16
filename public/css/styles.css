@@ -789,3 +789,16 @@ footer .rights{padding: 10px 0;background: #101621;margin-top: 30px;}
 @media (max-width: 992px) {
    .container { width: 100%; }
 }
+
+.job-company-logo{
+  padding-right: 160px;
+  position: relative;
+  min-height: 120px;
+}
+.job-company-logo .logo{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 160px;
+  max-height: 120px; 
+}
