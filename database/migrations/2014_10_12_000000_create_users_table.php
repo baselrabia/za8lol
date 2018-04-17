@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->default('/images/default-profile.jpg');
 
             $table->string('verify_link', 100)->nullable();
+            $table->boolean('verified')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

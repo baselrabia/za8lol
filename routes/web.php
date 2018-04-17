@@ -11,6 +11,37 @@
 |
 */
 
+
+
+Route::get('/checkadmin', function () {
+    return 'hello admin!';
+})->middleware('role:accoutant','auth');
+
+Route::get('/mail', function () {
+	$user = 'amitzarboxa@gmail.com';
+    Mail::send('verify', [], function($mail) use($user){
+    	$mail->to($user);
+    	$mail->subject('Za8lol verify email');
+    });
+});
+
+Route::get('/verify', function () {
+    $link = request()->link;
+
+    $user = App\User::where('verify_link', $link)->first();
+
+    if ($user) {
+    	$user->verify_link = null;
+    	$user->verified = true;
+    	$user->save();
+
+    	Auth::login($user);
+    }
+
+    return redirect('/home');
+
+});
+
 Route::get('/', function () {
     return view('user.welcome');
 });

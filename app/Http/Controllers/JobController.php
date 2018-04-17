@@ -41,10 +41,10 @@ class JobController extends Controller
 			return back();
 		}else{
 
-	    	$path = request()->logo->store('images');
+	    	$path = request()->logo->store('public/images');
 
 			$a = new Job;
-			$a->logo = $path;
+			$a->logo = str_replace('public', 'storage', $path);
 			$a->name = request()->name;
 			$a->title = request()->title;
 			$a->description = request()->description;

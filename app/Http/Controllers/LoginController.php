@@ -25,8 +25,13 @@ class LoginController extends Controller
 		}else{
 			$a = User::where('email', request()->email)->first();
 			if ($a->password == request()->password) {
-				Auth::login($a);
-				return redirect('/home');
+				if ($a->verified) {
+					Auth::login($a);
+					return redirect('/home');
+				}else{
+					session()->flash('error', 'your email is not verified!');
+					return back();
+				}
 			}
 			session()->flash('error', 'your password is wrong!');
 			return back();

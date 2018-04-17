@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use Auth;
+use Twilio;
 use App\User;
 use Validator;
 use Illuminate\Http\Request;
@@ -38,9 +40,17 @@ class RegisterController extends Controller
 		$a->gender     = request()->gender;
 		$a->location   = request()->location;
 		$a->phone      = request()->phone;
+		// $a->verify_link = rand(100000, 500000);
+		$a->verify_link = str_random(80);
 		$a->save();
 
-		Auth::login($a);
+		// Auth::login($a);
+		// Twilio::message($a->phone, 'Hello there this is : ' . $a->verify_link );
+
+	    Mail::send('verify', ['link' => $a->verify_link], function($mail){
+	    	$mail->to(request()->email);
+	    	$mail->subject('Za8lol verify email');
+	    });
 
 		return redirect('/home');
     }

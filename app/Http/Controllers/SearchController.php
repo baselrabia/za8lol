@@ -48,7 +48,7 @@ class SearchController extends Controller
 		$total = $x->count();
 		$data  = $x->limit($amount)->offset($offset)->get();
 
-		return view('user.search-php', [
+		return view('user.search-php')->with([
 			'jobs'   => $data,
 			'pages'  => ceil($total / $amount),
 			'page'   => $page,
